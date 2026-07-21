@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useRef, useState } from "react";
+import Loader from "@/components/Loader";
 
 const HomeClient = ({ email }: { email?: string }) => {
   const [open, setOpen] = useState(false);
@@ -105,9 +106,9 @@ const HomeClient = ({ email }: { email?: string }) => {
             <button
               onClick={handleLogin}
               disabled={loading}
-              className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2"
+              className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 min-w-20 justify-center"
             >
-              {loading ? "Login..." : "Login"}
+              {loading ? <Loader size="w-5 h-5" light /> : "Login"}
             </button>
           )}
         </div>
@@ -140,9 +141,10 @@ const HomeClient = ({ email }: { email?: string }) => {
               ) : (
                 <button
                   onClick={handleLogin}
-                  className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60"
+                  disabled={loading}
+                  className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 justify-center min-w-36"
                 >
-                  Get Strated
+                  {loading ? <Loader size="w-5 h-5" light /> : "Get Started"}
                 </button>
               )}
 

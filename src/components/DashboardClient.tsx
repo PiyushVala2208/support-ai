@@ -3,6 +3,7 @@ import axios from "axios";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
 
 const DashboardClient = ({ ownerId }: { ownerId: string }) => {
   const [businessName, setBusinessName] = useState("");
@@ -10,6 +11,7 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
   const [knowledge, setKnowledge] = useState("");
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const handleSettings = async () => {
     setLoading(true);
@@ -38,18 +40,33 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
           const result = await axios.post("/api/settings/get", {
             ownerId,
           });
-          setBusinessName(result.data.businessName);
-          setSupportEmail(result.data.supportEmail);
-          setKnowledge(result.data.knowledge);
+          if (result.data) {
+            setBusinessName(result.data.businessName || "");
+            setSupportEmail(result.data.supportEmail || "");
+            setKnowledge(result.data.knowledge || "");
+          }
         } catch (error) {
           console.error("get settings error:", error);
+        } finally {
+          setPageLoading(false);
         }
       };
       handleGetDetails();
+    } else {
+      setPageLoading(false);
     }
   }, [ownerId]);
 
   const navigate = useRouter();
+
+  if (pageLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-zinc-50">
+        <Loader size="w-16 h-16" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-900">
       <motion.div
@@ -123,11 +140,11 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="px-7 py-3 rounded-xl bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60"
+              className="px-7 py-3 rounded-xl bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 justify-center min-w-24"
               onClick={handleSettings}
               disabled={loading}
             >
-              {loading ? "Saving..." : "Save"}
+              {loading ? <Loader size="w-5 h-5" light /> : "Save"}
             </motion.button>
             {saved && (
               <motion.span
