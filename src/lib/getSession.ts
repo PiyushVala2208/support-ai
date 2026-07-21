@@ -19,6 +19,7 @@ export async function getSession() {
         valError?.name?.includes("ValidateTokenFailure")
       ) {
         const parts = token.split(".");
+
         if (parts.length === 3) {
           result = JSON.parse(Buffer.from(parts[1], "base64").toString());
         } else {
@@ -31,7 +32,6 @@ export async function getSession() {
 
     const userResponse = await scalekit.user.getUser(result.sub);
 
-    // Return a plain JS object to avoid BigInt serialization errors and next.js server-client component transfer issues
     return {
       user: {
         id: userResponse.user?.id,

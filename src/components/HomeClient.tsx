@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 
 const HomeClient = ({ email }: { email?: string }) => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useRouter();
   const popupRef = useRef<HTMLDivElement>(null);
@@ -23,6 +24,7 @@ const HomeClient = ({ email }: { email?: string }) => {
   }, []);
 
   const handleLogin = () => {
+    setLoading(true);
     window.location.href = "/api/auth/login";
   };
 
@@ -102,9 +104,10 @@ const HomeClient = ({ email }: { email?: string }) => {
           ) : (
             <button
               onClick={handleLogin}
+              disabled={loading}
               className="px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2"
             >
-              Login
+              {loading ? "Login..." : "Login"}
             </button>
           )}
         </div>
@@ -173,7 +176,7 @@ const HomeClient = ({ email }: { email?: string }) => {
                 transition={{ repeat: Infinity, duration: 3 }}
                 className="absolute text-xl -bottom-6 -right-6 w-14 h-14 rounded-full bg-black text-white flex items-center justify-center shadow-xl"
               >
-                💭
+                🗨️
               </motion.div>
             </div>
           </motion.div>
