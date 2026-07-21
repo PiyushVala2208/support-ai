@@ -12,12 +12,14 @@ export async function GET(req: NextRequest) {
   }
 
   const session = await scalekit.authenticateWithCode(code, redirectUri);
-  const responsse = NextResponse.redirect(`${process.env.NEXT_PUBLIC_APP_URL}/dashboard`);
+  const responsse = NextResponse.redirect(
+    `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+  );
 
   responsse.cookies.set("access_token", session.accessToken, {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
-    secure: false,
+    secure: true,
     path: "/",
   });
 
