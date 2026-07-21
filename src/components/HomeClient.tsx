@@ -10,6 +10,7 @@ import Loader from "@/components/Loader";
 const HomeClient = ({ email }: { email?: string }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
 
   const navigate = useRouter();
   const popupRef = useRef<HTMLDivElement>(null);
@@ -47,13 +48,23 @@ const HomeClient = ({ email }: { email?: string }) => {
   ];
 
   const handleLogOut = async () => {
+    setLoading(true);
     try {
       const result = await axios.get("/api/auth/logout");
       window.location.href = "/";
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
+
+  if (dashboardLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-zinc-50">
+        <Loader size="w-16 h-16" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-white to-zinc-50 text-zinc-900 overflow-x-hidden">
@@ -87,10 +98,14 @@ const HomeClient = ({ email }: { email?: string }) => {
                     className="absolute z-10 right-0 mt-3 w-44 bg-white rounded-xl shadow-xl border border-zinc-200 overflow-hidden"
                   >
                     <button
-                      onClick={() => navigate.push("/dashboard")}
-                      className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-100"
+                      onClick={() => {
+                        setDashboardLoading(true);
+                        navigate.push("/dashboard");
+                      }}
+                      className="w-full text-left px-4 py-3 text-sm hover:bg-zinc-100 flex items-center justify-between"
                     >
-                      Dashboard
+                      <span>Dashboard</span>
+                      {dashboardLoading && <Loader size="w-4 h-4" />}
                     </button>
                     <button
                       onClick={handleLogOut}
@@ -133,10 +148,14 @@ const HomeClient = ({ email }: { email?: string }) => {
             <div className="mt-10 flex gap-4">
               {email ? (
                 <button
-                  onClick={() => navigate.push("/dashboard")}
-                  className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60"
+                  onClick={() => {
+                    setDashboardLoading(true);
+                    navigate.push("/dashboard");
+                  }}
+                  disabled={dashboardLoading}
+                  className="px-7 py-3 rounded-xl bg-black text-white font-medium hover:bg-zinc-800 transition disabled:opacity-60 flex items-center gap-2 justify-center min-w-[172px]"
                 >
-                  Go to Dashboard
+                  {dashboardLoading ? <Loader size="w-5 h-5" light /> : "Go to Dashboard"}
                 </button>
               ) : (
                 <button

@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
 
   const session = await scalekit.authenticateWithCode(code, redirectUri);
   const responsse = NextResponse.redirect(
-    `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+    `${process.env.NEXT_PUBLIC_APP_URL}`,
   );
 
   responsse.cookies.set("access_token", session.accessToken, {
