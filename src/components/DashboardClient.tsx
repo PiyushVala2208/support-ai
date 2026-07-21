@@ -92,14 +92,30 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
       </motion.div>
 
       <div className="flex justify-center px-4 py-14 mt-20">
-        <motion.div className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-10">
-          <div className="mb-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-3xl bg-white rounded-2xl shadow-xl p-10"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mb-10"
+          >
             <h1 className="text-2xl font-semibold">ChatBot Settings</h1>
             <p className="text-zinc-500 mt-1">
               Manage your AI knowledge and business details
             </p>
-          </div>
-          <div className="mb-10">
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mb-10"
+          >
             <h1 className="text-lg font-medium mb-4">Business Details</h1>
             <div className="space-y-4">
               <input
@@ -117,8 +133,14 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
                 className="w-full rounded-xl border border-zinc-300 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-black/80 transition-all duration-400"
               />
             </div>
-          </div>
-          <div className="mb-10">
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mb-10"
+          >
             <h1 className="text-lg font-medium mb-4">Knowledge base</h1>
             <p className="text-sm text-zinc-500 mb-4">
               Add FAQs, policies, delivery, info, refunds, etc.
@@ -135,8 +157,14 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
 • Support hours`}
               />
             </div>
-          </div>
-          <div className="flex items-center gap-5">
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex items-center gap-5"
+          >
             <motion.button
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
@@ -155,7 +183,7 @@ const DashboardClient = ({ ownerId }: { ownerId: string }) => {
                 ✅ Settings saved
               </motion.span>
             )}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
